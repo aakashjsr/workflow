@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>WorkFlow Management</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/css/materialize.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body class="indigo darken-2">
+
+    <div class="container">
+        <div class="row">
+            <div class="col s12 m12">
+                <div class="card">
+                    <form action="/workflow/" method="post">
+                        {% csrf_token %}
+                        <div class="card-content">
+                            <span class="card-title center">
+                                <h3><i class="material-icons">question_answer</i> Questionaire</h3>
+                            </span>
+
+                            {% for question_link in question_links %}
+                            <h5>
+                                {{question_link.question.question}}
+
+                                <div class="input-field col s12">
+                                    {% if question_link.type == "binary" %}
+                                        <select name="{{question_link.id}}">
+                                            {% if question_link.answer == "yes" %}
+                                          <option value="" disabled>Choose your option</option>
+                                          <option value="yes" selected>Yes</option>
+                                          <option value="no">No</option>
+                                            {% elif question_link.answer == "no" %}
+                                            <option value="" disabled>Choose your option</option>
+                                          <option value="yes">Yes</option>
+                                          <option value="no" selected>No</option>
+                                            {% else %}
+                                              <option value="" disabled selected>Choose your option</option>
+                                          <option value="yes">Yes</option>
+                                          <option value="no">No</option>
+                                            {% endif %}
+                                        </select>
+                                        <label>Answer</label>
+                                    {% else %}
+                                        {% if question_link.answer == "" %}
+                                            <input type="text" name="{{question_link.id}}" placeholder="Enter Answer">
+                                        {% else %}
+                                            <input type="text" name="{{question_link.id}}" placeholder="Enter Answer" value="{{question_link.answer}}">
+                                        {% endif %}
+                                    {% endif %}
+                               </div>
+                            </h5>
+                            {% endfor %}
+
+                        </div>
+
+                        <div class="card-action">
+                            <div class="center">
+                                <button class="btn waves-effect waves-light" type="submit" name="action">Save
+    <i class="material-icons right">send</i>
+  </button>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-rc.2/js/materialize.min.js"></script>
+    <script>
+         $(document).ready(function(){
+            $('select').formSelect();
+          });
+    </script>
+</body>
+
+</html>

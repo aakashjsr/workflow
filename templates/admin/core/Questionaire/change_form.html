@@ -1,0 +1,6 @@
+{% extends "admin/change_form.html" %}
+{% block form_top %}
+<div align="right">
+    <input type="button" value="Request Answers" onclick="location.href='/request/?id={{original.id}}'">
+</div>
+{% endblock %}
